@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Matchmaker</RootNamespace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Matchmaker.Api\Matchmaker.Api.csproj" />
+    <ProjectReference Include="..\Matchmaker.Domain\Matchmaker.Domain.csproj" />
+    <ProjectReference Include="..\Matchmaker.Infra.Data\Matchmaker.Infra.Data.csproj" />
+    <ProjectReference Include="..\Matchmaker.Infra.Http\Matchmaker.Infra.Http.csproj" />
+  </ItemGroup>
+
+</Project>
