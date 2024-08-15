@@ -2,9 +2,20 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD371A7F-3FCE-4848-AF6C-157726E45DF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmaker.Domain", "src\Matchmaker.Domain\Matchmaker.Domain.csproj", "{C652CD3B-075C-4EF1-9A13-26B5D65820F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C652CD3B-075C-4EF1-9A13-26B5D65820F4} = {AD371A7F-3FCE-4848-AF6C-157726E45DF9}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C652CD3B-075C-4EF1-9A13-26B5D65820F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C652CD3B-075C-4EF1-9A13-26B5D65820F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C652CD3B-075C-4EF1-9A13-26B5D65820F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C652CD3B-075C-4EF1-9A13-26B5D65820F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
