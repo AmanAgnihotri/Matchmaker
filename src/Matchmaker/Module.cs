@@ -2,6 +2,7 @@ namespace Matchmaker;
 
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.ResponseCompression;
+using Sessions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -30,6 +31,13 @@ public static class Module
       options.Providers.Add<BrotliCompressionProvider>();
       options.Providers.Add<GzipCompressionProvider>();
     });
+
+    services.ConfigureSessionModule();
+  }
+
+  public static void MapEndpoints(this IEndpoints endpoints)
+  {
+    endpoints.MapSessionEndpoints();
   }
 
   public static void MapMiddlewares(this WebApplication app)
