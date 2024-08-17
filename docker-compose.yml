@@ -1,0 +1,23 @@
+﻿services:
+  matchmaker:
+    image: matchmaker:latest
+    build:
+      context: .
+      dockerfile: src/Matchmaker/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      Redis__ConnectionString: "localhost,abortConnect=false"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.4.0-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
