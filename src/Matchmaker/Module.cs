@@ -21,6 +21,7 @@ public static class Module
 
     services.AddSingleton<ITimer, Timer>();
 
+    services.ConfigureRedis(configuration);
     services.ConfigureJsonSerializer();
 
     services.AddResponseCompression(options =>
@@ -34,6 +35,22 @@ public static class Module
   public static void MapMiddlewares(this WebApplication app)
   {
     app.UseResponseCompression();
+  }
+
+  private static void ConfigureRedis(
+    this IServices services,
+    IConfiguration config)
+  {
+    RedisSection? data = config.GetSection("Redis").Get<RedisSection>();
+
+    if (data is null || !data.IsValid())
+    {
+      throw new InvalidDataException(nameof(data));
+    }
+
+    DbConfig dbConfig = new(data.ConnectionString!);
+
+    services.AddSingleton<IDbService>(new DbService(dbConfig));
   }
 
   private static void ConfigureJsonSerializer(this IServices services)
