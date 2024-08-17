@@ -1,5 +1,7 @@
 namespace Matchmaker;
 
+using Microsoft.AspNetCore.ResponseCompression;
+
 public static class Module
 {
   public static void MapRoot(this WebApplication app)
@@ -15,5 +17,17 @@ public static class Module
     IConfiguration configuration = builder.Configuration;
 
     services.AddSingleton<ITimer, Timer>();
+
+    services.AddResponseCompression(options =>
+    {
+      options.EnableForHttps = true;
+      options.Providers.Add<BrotliCompressionProvider>();
+      options.Providers.Add<GzipCompressionProvider>();
+    });
+  }
+
+  public static void MapMiddlewares(this WebApplication app)
+  {
+    app.UseResponseCompression();
   }
 }
