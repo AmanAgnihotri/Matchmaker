@@ -62,6 +62,8 @@ public sealed class MatchmakingService(
 
     Session session = GetOrCreateSession(user, time);
 
+    user.SessionId = session.Id;
+
     return store.Save(user.Id, session.Id, config.MaxRetainTime);
   }
 
