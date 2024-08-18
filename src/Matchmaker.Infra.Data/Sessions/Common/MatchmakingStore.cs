@@ -1,44 +1,54 @@
 namespace Matchmaker.Sessions;
 
+using System.Collections.Concurrent;
+
 public sealed class MatchmakingStore(IDbService db) : IMatchmakingStore
 {
+  private readonly ConcurrentDictionary<UserId, User> _waitingUsers = [];
+  private readonly ConcurrentDictionary<SessionId, Session> _sessions = [];
+
   public void AddOrUpdate(User user)
   {
-    db.InMemoryStore.AddOrUpdateUser(user);
+    _waitingUsers.AddOrUpdate(user.Id, user, (_, existingUser) =>
+    {
+      existingUser.TryCancel();
+
+      return user;
+    });
   }
 
   public bool TryRemoveUser(UserId userId, out User? user)
   {
-    return db.InMemoryStore.TryRemoveUser(userId, out user);
+    return _waitingUsers.TryRemove(userId, out user);
   }
 
   public IEnumerable<User> GetWaitingUsers()
   {
-    return db.InMemoryStore.GetWaitingUsers();
+    return _waitingUsers.Values;
   }
 
   public void Add(Session session)
   {
-    db.InMemoryStore.TryAdd(session);
+    _sessions.TryAdd(session.Id, session);
   }
 
   public Session? GetSession(SessionId sessionId)
   {
-    return db.InMemoryStore.GetSessionOrDefault(sessionId);
+    return _sessions.GetValueOrDefault(sessionId);
   }
 
   public IEnumerable<Session> GetSessions()
   {
-    return db.InMemoryStore.GetSessions();
+    return _sessions.Values;
   }
 
   public void RemoveFullSessions(int maxUsersPerSession)
   {
-    foreach (Session session in db.InMemoryStore.GetSessions())
+    foreach (Session session in GetSessions())
     {
       if (session.Users.Count == maxUsersPerSession)
       {
-        db.InMemoryStore.TryRemoveSession(session.Id);
+        _sessions.TryRemove(session.Id, out _);
       }
     }
   }
