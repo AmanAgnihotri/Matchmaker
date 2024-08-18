@@ -89,14 +89,21 @@ public sealed class MatchmakingService(
 
   private ValueTask TryDelete(UserId userId)
   {
-    if (!store.TryRemoveUser(userId, out User? user))
+    if (!store.TryRemoveUser(userId, out User? user) || user?.SessionId is null)
     {
       return ValueTask.CompletedTask;
     }
 
-    if (user?.SessionId is not null)
+    Session? session = store.GetSession(user.SessionId.Value);
+
+    if (session is not null)
     {
-      store.GetSession(user.SessionId.Value)?.Remove(user);
+      session.Remove(user);
+
+      if (session.Users.Count == 0)
+      {
+        store.RemoveSession(session.Id);
+      }
     }
 
     return ValueTask.CompletedTask;
