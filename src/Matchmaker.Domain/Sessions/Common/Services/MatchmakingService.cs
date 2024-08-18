@@ -62,6 +62,8 @@ public sealed class MatchmakingService(
 
     Session session = GetOrCreateSession(user, time);
 
+    session.Users.Add(user);
+
     return store.Save(user.Id, session.Id, config.MaxRetainTime);
   }
 
@@ -92,13 +94,18 @@ public sealed class MatchmakingService(
       return ValueTask.CompletedTask;
     }
 
-    User user = new(userId, TimeSpan.Zero, DateTime.UtcNow);
-
     foreach (Session session in store.GetSessions())
     {
-      if (session.Contains(user))
+      if (!session.Contains(userId))
       {
-        session.Remove(user);
+        continue;
+      }
+
+      session.Remove(userId);
+
+      if (session.Users.Count == 0)
+      {
+        store.RemoveSession(session.Id);
       }
     }
 

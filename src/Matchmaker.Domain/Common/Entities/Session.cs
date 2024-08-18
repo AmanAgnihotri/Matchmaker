@@ -4,13 +4,13 @@ public sealed record Session(
   SessionId Id,
   List<User> Users)
 {
-  public bool Contains(User user)
+  public bool Contains(UserId userId)
   {
-    return Users.Contains(user);
+    return Users.Any(user => user.Id == userId);
   }
 
-  public void Remove(User user)
+  public void Remove(UserId userId)
   {
-    Users.Remove(user);
+    Users.RemoveAll(user => user.Id == userId);
   }
 }
