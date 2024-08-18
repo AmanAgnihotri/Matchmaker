@@ -5,8 +5,6 @@ public sealed record User(
   TimeSpan Latency,
   DateTime QueueTime)
 {
-  public SessionId? SessionId { get; set; }
-
   private CancellationTokenSource? _source;
 
   public CancellationToken GetOrCreateCancellationToken()
