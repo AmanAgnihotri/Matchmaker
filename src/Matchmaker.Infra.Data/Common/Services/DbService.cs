@@ -2,8 +2,6 @@ namespace Matchmaker;
 
 public interface IDbService
 {
-  IConnectionMultiplexer Connection { get; }
-
   IDatabase Database { get; }
 
   InMemoryStore InMemoryStore { get; }
@@ -11,17 +9,16 @@ public interface IDbService
 
 public sealed class DbService : IDbService
 {
-  public IConnectionMultiplexer Connection { get; }
-
   public IDatabase Database { get; }
 
   public InMemoryStore InMemoryStore { get; }
 
   public DbService(DbConfig config)
   {
-    Connection = ConnectionMultiplexer.Connect(config.ConnectionString);
+    ConnectionMultiplexer connection =
+      ConnectionMultiplexer.Connect(config.ConnectionString);
 
-    Database = Connection.GetDatabase();
+    Database = connection.GetDatabase();
 
     InMemoryStore = new InMemoryStore();
   }
