@@ -17,13 +17,6 @@ public sealed class InMemoryStore
     });
   }
 
-  public SessionId? TryGetSessionId(UserId userId)
-  {
-    return _waitingUsers.TryGetValue(userId, out User? user)
-      ? user.SessionId
-      : null;
-  }
-
   public bool TryRemoveUser(UserId userId, out User? user)
   {
     return _waitingUsers.TryRemove(userId, out user);
