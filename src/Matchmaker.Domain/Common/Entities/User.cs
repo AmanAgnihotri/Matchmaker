@@ -33,4 +33,19 @@ public sealed record User(
 
     _source = null;
   }
+
+  public bool Equals(User? other)
+  {
+    if (other is null)
+    {
+      return false;
+    }
+
+    return ReferenceEquals(this, other) || Id.Equals(other.Id);
+  }
+
+  public override int GetHashCode()
+  {
+    return Id.GetHashCode();
+  }
 }
