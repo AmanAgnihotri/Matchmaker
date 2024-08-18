@@ -10,8 +10,6 @@ public interface IMatchmakingStore
 
   void Add(Session session);
 
-  Session? GetSession(SessionId sessionId);
-
   void RemoveSession(SessionId sessionId);
 
   IEnumerable<Session> GetSessions();

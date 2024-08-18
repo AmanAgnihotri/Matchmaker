@@ -32,11 +32,6 @@ public sealed class MatchmakingStore(IDbService db) : IMatchmakingStore
     _sessions.TryAdd(session.Id, session);
   }
 
-  public Session? GetSession(SessionId sessionId)
-  {
-    return _sessions.GetValueOrDefault(sessionId);
-  }
-
   public void RemoveSession(SessionId sessionId)
   {
     _sessions.TryRemove(sessionId, out _);
