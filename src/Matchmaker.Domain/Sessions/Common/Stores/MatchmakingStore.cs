@@ -12,6 +12,8 @@ public interface IMatchmakingStore
 
   Session? GetSession(SessionId sessionId);
 
+  void RemoveSession(SessionId sessionId);
+
   IEnumerable<Session> GetSessions();
 
   void RemoveFullSessions(int maxUsersPerSession);

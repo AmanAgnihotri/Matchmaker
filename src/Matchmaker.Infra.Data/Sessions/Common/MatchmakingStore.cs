@@ -37,6 +37,11 @@ public sealed class MatchmakingStore(IDbService db) : IMatchmakingStore
     return _sessions.GetValueOrDefault(sessionId);
   }
 
+  public void RemoveSession(SessionId sessionId)
+  {
+    _sessions.TryRemove(sessionId, out _);
+  }
+
   public IEnumerable<Session> GetSessions()
   {
     return _sessions.Values;
@@ -48,7 +53,7 @@ public sealed class MatchmakingStore(IDbService db) : IMatchmakingStore
     {
       if (session.Users.Count == maxUsersPerSession)
       {
-        _sessions.TryRemove(session.Id, out _);
+        RemoveSession(session.Id);
       }
     }
   }
