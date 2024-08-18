@@ -9,9 +9,7 @@ public sealed class Handler(IStore store) : IHandler
 {
   public async Task<IResult> Handle(Query query)
   {
-    UserId userId = query.UserId;
-
-    SessionId? sessionId = await store.GetSession(userId);
+    SessionId? sessionId = await store.GetSession(query.UserId);
 
     if (sessionId is null)
     {

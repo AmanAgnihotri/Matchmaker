@@ -2,8 +2,15 @@ namespace Matchmaker.Sessions.Get;
 
 public sealed class Store(IDbService db) : IStore
 {
-  public async Task<SessionId?> GetSession(UserId userId)
+  public async ValueTask<SessionId?> GetSession(UserId userId)
   {
+    SessionId? sessionId = db.InMemoryStore.TryGetSessionId(userId);
+
+    if (sessionId is not null)
+    {
+      return sessionId;
+    }
+
     try
     {
       RedisValue value = await db.Database.StringGetAsync(userId.ToString());
