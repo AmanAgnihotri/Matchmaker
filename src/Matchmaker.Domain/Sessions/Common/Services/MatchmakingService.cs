@@ -100,6 +100,8 @@ public sealed class MatchmakingService(
     {
       session.Remove(user);
 
+      user.SessionId = null;
+
       if (session.Users.Count == 0)
       {
         store.RemoveSession(session.Id);
