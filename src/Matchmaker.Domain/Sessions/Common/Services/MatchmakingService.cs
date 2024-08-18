@@ -96,16 +96,18 @@ public sealed class MatchmakingService(
 
     Session? session = store.GetSession(user.SessionId.Value);
 
-    if (session is not null)
+    if (session is null)
     {
-      session.Remove(user);
+      return ValueTask.CompletedTask;
+    }
 
-      user.SessionId = null;
+    session.Remove(user);
 
-      if (session.Users.Count == 0)
-      {
-        store.RemoveSession(session.Id);
-      }
+    user.SessionId = null;
+
+    if (session.Users.Count == 0)
+    {
+      store.RemoveSession(session.Id);
     }
 
     return ValueTask.CompletedTask;
