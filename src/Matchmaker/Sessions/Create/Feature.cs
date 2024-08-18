@@ -1,0 +1,12 @@
+namespace Matchmaker.Sessions.Create;
+
+public static class Feature
+{
+  public static void ConfigureCreateSession(this IServices services)
+  {
+    services
+      .AddSingleton<IController, Controller>()
+      .AddSingleton<IHandler, Handler>()
+      .AddSingleton<IStore, Store>();
+  }
+}
