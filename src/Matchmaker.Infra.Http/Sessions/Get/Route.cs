@@ -10,7 +10,7 @@ public static class Route
           IController controller) =>
         controller.Handle(context, userId))
       .WithName("GetUserSession")
-      .Produces<SessionDto>()
+      .Produces<GetResult>()
       .Produces(Status404NotFound)
       .Produces(Status400BadRequest)
       .WithTags("Session");

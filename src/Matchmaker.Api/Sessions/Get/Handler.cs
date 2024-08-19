@@ -16,6 +16,6 @@ public sealed class Handler(IStore store) : IHandler
       return new NotFoundResult();
     }
 
-    return new GetResult(new SessionDto(sessionId.Value));
+    return new GetResult(sessionId.Value);
   }
 }

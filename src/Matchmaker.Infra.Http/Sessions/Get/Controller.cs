@@ -17,7 +17,7 @@ public sealed class Controller(IHandler handler) : IController
 
       await (result switch
       {
-        GetResult data => context.Ok(data.Session),
+        GetResult data => context.Ok(data),
         NotFoundResult => context.Status(Status404NotFound),
         _ => context.Status(Status501NotImplemented)
       });
