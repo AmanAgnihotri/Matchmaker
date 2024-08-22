@@ -9,6 +9,14 @@ public sealed class MatchmakingService(
     return state.AddUser(user);
   }
 
+  public void RemoveUsers(IEnumerable<User> users)
+  {
+    foreach (User user in users)
+    {
+      state.RemoveUser(user.Id);
+    }
+  }
+
   public List<User>? MatchUsers(DateTime time)
   {
     List<User> matchedUsers = [];
