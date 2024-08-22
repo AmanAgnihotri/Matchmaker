@@ -17,6 +17,11 @@ public sealed class MatchmakingService(
     }
   }
 
+  public int GetWaitingUsersCount()
+  {
+    return state.GetWaitingUsersCount();
+  }
+
   public List<User>? MatchUsers(DateTime time)
   {
     List<User> matchedUsers = [];

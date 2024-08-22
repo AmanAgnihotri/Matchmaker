@@ -24,6 +24,11 @@ public sealed class MatchmakingState(
     return activeSessions.TryAdd(session.Id, session);
   }
 
+  public int GetWaitingUsersCount()
+  {
+    return waitingUsers.Count;
+  }
+
   public IEnumerable<User> GetWaitingUsers()
   {
     return waitingUsers.Values;
