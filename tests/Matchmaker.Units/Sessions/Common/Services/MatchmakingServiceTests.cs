@@ -23,6 +23,30 @@ public sealed class MatchmakingServiceTests
   }
 
   [Fact]
+  public void TestRemoveUsers()
+  {
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId01));
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId02));
+
+    MatchmakingConfig config = new(2, 10, []);
+    MatchmakingState state = new([], []);
+
+    MatchmakingService service = new(config, state);
+
+    User user01 = new(userId01, TimeSpan.FromMilliseconds(80), DateTime.UtcNow);
+    User user02 = new(userId02, TimeSpan.FromMilliseconds(30), DateTime.UtcNow);
+
+    Assert.True(service.AddUser(user01));
+    Assert.True(service.AddUser(user02));
+
+    Assert.Equal(2, service.GetWaitingUsersCount());
+
+    service.RemoveUsers([user01, user02]);
+
+    Assert.Equal(0, service.GetWaitingUsersCount());
+  }
+
+  [Fact]
   public void TestMatchUsersWithOneUser()
   {
     Assert.True(UserId.TryParse(Id.Create(), out UserId userId));
