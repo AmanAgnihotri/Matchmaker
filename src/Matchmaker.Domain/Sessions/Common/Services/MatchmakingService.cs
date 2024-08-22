@@ -20,8 +20,10 @@ public sealed class MatchmakingService(
 
     CancellationToken token = user.GetOrCreateCancellationToken();
 
+    DateTime futureTime = currentTime.Add(config.MaxWaitTime);
+
     _ = Task.Delay(config.MaxWaitTime, token)
-      .ContinueWith(async _ => await AddToActiveSession(user, DateTime.UtcNow),
+      .ContinueWith(async _ => await AddToActiveSession(user, futureTime),
         TaskContinuationOptions.OnlyOnRanToCompletion);
 
     List<User>? matchedUsers = MatchUsers(store.GetWaitingUsers(), currentTime);
