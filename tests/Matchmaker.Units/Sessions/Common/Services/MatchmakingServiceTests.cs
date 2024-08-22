@@ -21,4 +21,26 @@ public sealed class MatchmakingServiceTests
 
     Assert.False(service.AddUser(sameUser));
   }
+
+  [Fact]
+  public void TestMatchUsersWithOneUser()
+  {
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId));
+
+    User user = new(userId, TimeSpan.FromMilliseconds(50), DateTime.UtcNow);
+
+    MatchmakingConfig config = new(2, 10, [
+      new MatchedUsersCountCriterion(0)
+    ]);
+
+    MatchmakingState state = new([], []);
+
+    MatchmakingService service = new(config, state);
+
+    service.AddUser(user);
+
+    List<User>? matchedUsers = service.MatchUsers(DateTime.UtcNow);
+
+    Assert.Null(matchedUsers);
+  }
 }
