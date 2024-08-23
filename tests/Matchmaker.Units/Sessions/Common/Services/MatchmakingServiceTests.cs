@@ -9,7 +9,7 @@ public sealed class MatchmakingServiceTests
 
     User user = new(userId, TimeSpan.FromMilliseconds(50), DateTime.UtcNow);
 
-    MatchmakingConfig config = new(2, 10, []);
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), []);
     MatchmakingState state = new([], []);
 
     MatchmakingService service = new(config, state);
@@ -28,7 +28,7 @@ public sealed class MatchmakingServiceTests
     Assert.True(UserId.TryParse(Id.Create(), out UserId userId01));
     Assert.True(UserId.TryParse(Id.Create(), out UserId userId02));
 
-    MatchmakingConfig config = new(2, 10, []);
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), []);
     MatchmakingState state = new([], []);
 
     MatchmakingService service = new(config, state);
@@ -53,7 +53,7 @@ public sealed class MatchmakingServiceTests
 
     User user = new(userId, TimeSpan.FromMilliseconds(50), DateTime.UtcNow);
 
-    MatchmakingConfig config = new(2, 10, [
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), [
       new MatchedUsersCountCriterion(0)
     ]);
 
@@ -88,7 +88,7 @@ public sealed class MatchmakingServiceTests
     User user03 = new(userId03, TimeSpan.FromMilliseconds(20), user03Time);
     User user04 = new(userId04, TimeSpan.FromMilliseconds(90), user04Time);
 
-    MatchmakingConfig config = new(2, 10, [
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), [
       new MatchedUsersCountCriterion(0),
       new LatencyCriterion(TimeSpan.FromMilliseconds(30))
     ]);
