@@ -24,6 +24,11 @@ public sealed class MatchmakingService(
 
   public List<User>? MatchUsers(DateTime time)
   {
+    if (state.GetWaitingUsersCount() < config.MinUsersPerSession)
+    {
+      return null;
+    }
+
     List<User> matchedUsers = [];
 
     foreach (User user in state.GetWaitingUsers()
