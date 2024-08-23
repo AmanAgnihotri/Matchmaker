@@ -19,9 +19,9 @@ public sealed class MatchmakingState(
     return waitingUsers.Remove(userId);
   }
 
-  public bool AddSession(Session session)
+  public void AddSession(Session session)
   {
-    return activeSessions.TryAdd(session.Id, session);
+    activeSessions.TryAdd(session.Id, session);
   }
 
   public int GetWaitingUsersCount()
