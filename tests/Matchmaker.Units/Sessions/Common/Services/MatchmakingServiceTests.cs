@@ -209,4 +209,34 @@ public sealed class MatchmakingServiceTests
       .Distinct()
     );
   }
+
+  [Fact]
+  public void TestUserRemoval()
+  {
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId01));
+
+    DateTime currentTime = DateTime.UtcNow;
+
+    DateTime user01Time = currentTime.AddSeconds(-5);
+
+    User user01 = new(userId01, TimeSpan.FromMilliseconds(80), user01Time);
+
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), [
+      new MatchedUsersCountCriterion(0),
+      new LatencyCriterion(TimeSpan.FromMilliseconds(100)),
+      new QueueTimeCriterion(TimeSpan.FromSeconds(4))
+    ]);
+
+    MatchmakingState state = new([], []);
+
+    MatchmakingService service = new(config, state);
+
+    service.AddUser(user01);
+
+    Assert.Equal(1, service.GetWaitingUsersCount());
+
+    Assert.True(service.RemoveUser(userId01));
+
+    Assert.Equal(0, service.GetWaitingUsersCount());
+  }
 }
