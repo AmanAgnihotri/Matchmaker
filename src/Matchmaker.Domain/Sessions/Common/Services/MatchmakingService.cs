@@ -9,6 +9,24 @@ public sealed class MatchmakingService(
     return state.AddUser(user);
   }
 
+  public IEnumerable<IEvent> TryCreateSessions(DateTime time)
+  {
+    while (MatchUsers(time) is { } matchedUsers)
+    {
+      foreach (User user in matchedUsers)
+      {
+        Session session = GetOrCreateSession(user, time);
+
+        session.Users.Add(user);
+
+        yield return new SessionCreated(session, user);
+      }
+
+      RemoveUsers(matchedUsers);
+    }
+  }
+
+
   public void RemoveUsers(IEnumerable<User> users)
   {
     foreach (User user in users)
@@ -45,5 +63,23 @@ public sealed class MatchmakingService(
     return matchedUsers.Count >= config.MinUsersPerSession
       ? matchedUsers
       : null;
+  }
+
+  private Session GetOrCreateSession(User user, DateTime time)
+  {
+    Session? session = state.GetActiveSessions(config.MaxUsersPerSession)
+      .FirstOrDefault(session => config.MatchCriteria
+        .Any(c => c.Matches(user, session.Users, time)));
+
+    return session ?? CreateSession();
+  }
+
+  private Session CreateSession()
+  {
+    Session newSession = new(SessionId.Create(), []);
+
+    state.AddSession(newSession);
+
+    return newSession;
   }
 }
