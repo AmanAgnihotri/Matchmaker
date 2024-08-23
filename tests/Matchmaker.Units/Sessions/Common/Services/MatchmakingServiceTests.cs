@@ -123,4 +123,44 @@ public sealed class MatchmakingServiceTests
     Assert.Contains(user02, matchedUsers02);
     Assert.Contains(user03, matchedUsers02);
   }
+
+  [Fact]
+  public void TestSessionsCreation()
+  {
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId01));
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId02));
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId03));
+    Assert.True(UserId.TryParse(Id.Create(), out UserId userId04));
+
+    DateTime currentTime = DateTime.UtcNow;
+
+    DateTime user01Time = currentTime.AddMilliseconds(-1000);
+    DateTime user02Time = currentTime.AddMilliseconds(-900);
+    DateTime user03Time = currentTime.AddMilliseconds(-100);
+    DateTime user04Time = currentTime.AddMilliseconds(-200);
+
+    User user01 = new(userId01, TimeSpan.FromMilliseconds(80), user01Time);
+    User user02 = new(userId02, TimeSpan.FromMilliseconds(30), user02Time);
+    User user03 = new(userId03, TimeSpan.FromMilliseconds(20), user03Time);
+    User user04 = new(userId04, TimeSpan.FromMilliseconds(90), user04Time);
+
+    MatchmakingConfig config = new(2, 10, TimeSpan.FromSeconds(4), [
+      new MatchedUsersCountCriterion(0),
+      new LatencyCriterion(TimeSpan.FromMilliseconds(30))
+    ]);
+
+    MatchmakingState state = new([], []);
+
+    MatchmakingService service = new(config, state);
+
+    service.AddUser(user01);
+    service.AddUser(user02);
+    service.AddUser(user03);
+    service.AddUser(user04);
+
+    List<IEvent> events = service.TryCreateSessions(currentTime).ToList();
+
+    Assert.Equal(4, events.Count);
+    Assert.Contains(events, x => x is SessionCreated);
+  }
 }
