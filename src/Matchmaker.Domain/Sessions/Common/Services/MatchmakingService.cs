@@ -22,16 +22,7 @@ public sealed class MatchmakingService(
         yield return new SessionCreated(session, user);
       }
 
-      RemoveUsers(matchedUsers);
-    }
-  }
-
-
-  public void RemoveUsers(IEnumerable<User> users)
-  {
-    foreach (User user in users)
-    {
-      state.RemoveUser(user.Id);
+      RemoveUsersFromQueue(matchedUsers);
     }
   }
 
@@ -63,6 +54,14 @@ public sealed class MatchmakingService(
     return matchedUsers.Count >= config.MinUsersPerSession
       ? matchedUsers
       : null;
+  }
+
+  public void RemoveUsersFromQueue(IEnumerable<User> users)
+  {
+    foreach (User user in users)
+    {
+      state.RemoveUser(user.Id);
+    }
   }
 
   private Session GetOrCreateSession(User user, DateTime time)

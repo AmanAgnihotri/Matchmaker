@@ -41,7 +41,7 @@ public sealed class MatchmakingServiceTests
 
     Assert.Equal(2, service.GetWaitingUsersCount());
 
-    service.RemoveUsers([user01, user02]);
+    service.RemoveUsersFromQueue([user01, user02]);
 
     Assert.Equal(0, service.GetWaitingUsersCount());
   }
@@ -106,13 +106,13 @@ public sealed class MatchmakingServiceTests
 
     Assert.NotNull(matchedUsers01);
 
-    service.RemoveUsers(matchedUsers01);
+    service.RemoveUsersFromQueue(matchedUsers01);
 
     List<User>? matchedUsers02 = service.MatchUsers(currentTime);
 
     Assert.NotNull(matchedUsers02);
 
-    service.RemoveUsers(matchedUsers02);
+    service.RemoveUsersFromQueue(matchedUsers02);
 
     Assert.Equal(2, matchedUsers01.Count);
     Assert.Equal(2, matchedUsers02.Count);
