@@ -56,6 +56,33 @@ public sealed class MatchmakingService(
       : null;
   }
 
+  public bool RemoveUser(UserId userId)
+  {
+    if (state.RemoveUser(userId))
+    {
+      return true;
+    }
+
+    IEnumerable<Session> sessions =
+      state.GetActiveSessions(config.MaxUsersPerSession);
+
+    foreach (Session session in sessions)
+    {
+      User? user = session.Users.FirstOrDefault(user => user.Id == userId);
+
+      if (user is null)
+      {
+        continue;
+      }
+
+      session.Users.Remove(user);
+
+      return true;
+    }
+
+    return false;
+  }
+
   public void RemoveUsersFromQueue(IEnumerable<User> users)
   {
     foreach (User user in users)
