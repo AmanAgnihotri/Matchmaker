@@ -33,7 +33,8 @@ public sealed class MatchmakingService(
 
     foreach (User user in state.GetWaitingUsers()
                .OrderBy(user => user.QueueTime)
-               .TakeWhile(_ => matchedUsers.Count < config.MaxUsersPerSession))
+               .TakeWhile(u => matchedUsers.Count < config.MaxUsersPerSession ||
+                               time - u.QueueTime >= config.MaxWaitTime))
     {
       if (config.MatchCriteria.Any(c => c.Matches(user, matchedUsers, time)))
       {
