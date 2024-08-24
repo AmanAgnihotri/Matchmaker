@@ -46,19 +46,19 @@ public class HostedService(IServiceProvider provider) : BackgroundService
       }
       else
       {
-        await TryCreateSessions(DateTime.UtcNow);
+        await TryCreateSessions(DateTime.UtcNow, true);
       }
     }
 
     if (_service.GetWaitingUsersCount() > 0)
     {
-      await TryCreateSessions(DateTime.UtcNow);
+      await TryCreateSessions(DateTime.UtcNow, true);
     }
   }
 
-  private async Task TryCreateSessions(DateTime time)
+  private async Task TryCreateSessions(DateTime time, bool forced = false)
   {
-    List<IEvent> events = _service.TryCreateSessions(time).ToList();
+    List<IEvent> events = _service.TryCreateSessions(time, forced).ToList();
 
     if (events.Count > 0)
     {

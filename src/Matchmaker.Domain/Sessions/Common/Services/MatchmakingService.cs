@@ -9,9 +9,11 @@ public sealed class MatchmakingService(
     return state.AddUser(user);
   }
 
-  public IEnumerable<IEvent> TryCreateSessions(DateTime time)
+  public IEnumerable<IEvent> TryCreateSessions(
+    DateTime time,
+    bool forced = false)
   {
-    while (MatchUsers(time) is { } matchedUsers)
+    while (MatchUsers(time, forced) is { } matchedUsers)
     {
       foreach (User user in matchedUsers)
       {
@@ -31,13 +33,8 @@ public sealed class MatchmakingService(
     return state.GetWaitingUsersCount();
   }
 
-  public List<User>? MatchUsers(DateTime time)
+  public List<User>? MatchUsers(DateTime time, bool forced = false)
   {
-    if (state.GetWaitingUsersCount() < config.MinUsersPerSession)
-    {
-      return null;
-    }
-
     List<User> matchedUsers = [];
 
     foreach (User user in state.GetWaitingUsers()
@@ -49,6 +46,11 @@ public sealed class MatchmakingService(
       {
         matchedUsers.Add(user);
       }
+    }
+
+    if (forced && matchedUsers.Count > 0)
+    {
+      return matchedUsers;
     }
 
     return matchedUsers.Count >= config.MinUsersPerSession
