@@ -1,6 +1,9 @@
 namespace Matchmaker;
 
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.ResponseCompression;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public static class Module
 {
@@ -18,6 +21,8 @@ public static class Module
 
     services.AddSingleton<ITimer, Timer>();
 
+    services.ConfigureJsonSerializer();
+
     services.AddResponseCompression(options =>
     {
       options.EnableForHttps = true;
@@ -29,5 +34,18 @@ public static class Module
   public static void MapMiddlewares(this WebApplication app)
   {
     app.UseResponseCompression();
+  }
+
+  private static void ConfigureJsonSerializer(this IServices services)
+  {
+    services.Configure<JsonOptions>(options =>
+    {
+      options.SerializerOptions.PropertyNamingPolicy =
+        JsonNamingPolicy.CamelCase;
+      options.SerializerOptions.DefaultIgnoreCondition =
+        JsonIgnoreCondition.WhenWritingNull;
+      options.SerializerOptions.Converters.Add(
+        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    });
   }
 }
