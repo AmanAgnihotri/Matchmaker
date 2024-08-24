@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Matchmaker</RootNamespace>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
