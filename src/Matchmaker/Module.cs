@@ -13,5 +13,7 @@ public static class Module
   {
     IServices services = builder.Services;
     IConfiguration config = builder.Configuration;
+
+    services.AddSingleton<ITimer, Timer>();
   }
 }
