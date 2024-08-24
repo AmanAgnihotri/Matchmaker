@@ -35,7 +35,9 @@ public sealed class MatchmakingService(
 
   public List<User>? MatchUsers(DateTime time, bool forced = false)
   {
-    if (GetWaitingUsersCount() == 0)
+    int count = GetWaitingUsersCount();
+
+    if (count == 0 || (count == 1 && !forced))
     {
       return null;
     }
