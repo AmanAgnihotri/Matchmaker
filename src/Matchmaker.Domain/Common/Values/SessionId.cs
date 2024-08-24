@@ -24,6 +24,23 @@ public readonly record struct SessionId
     return new SessionId(Id.Create(), false);
   }
 
+  public static bool TryParse(string? value, out SessionId? sessionId)
+  {
+    if (!string.IsNullOrWhiteSpace(value))
+    {
+      if (long.TryParse(value, out long result))
+      {
+        sessionId = new SessionId(result, false);
+
+        return true;
+      }
+    }
+
+    sessionId = null;
+
+    return false;
+  }
+
   public override string ToString()
   {
     return _value.ToString();
