@@ -8,5 +8,6 @@ await using WebApplication app = builder.Build();
 
 app.MapRoot();
 app.MapMiddlewares();
+app.MapEndpoints();
 
 await app.RunAsync();
