@@ -8,4 +8,10 @@ public static class Module
 
     app.MapGet("/", () => result);
   }
+
+  public static void ConfigureApp(this WebApplicationBuilder builder)
+  {
+    IServices services = builder.Services;
+    IConfiguration config = builder.Configuration;
+  }
 }
