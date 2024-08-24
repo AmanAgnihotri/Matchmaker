@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmaker.Api", "src\Match
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmaker.Infra.Http", "src\Matchmaker.Infra.Http\Matchmaker.Infra.Http.csproj", "{46FBD5D8-7D7C-447A-931E-162E531DF9CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmaker", "src\Matchmaker\Matchmaker.csproj", "{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,7 @@ Global
 		{171EA31C-95A5-4D2E-8FFD-C31ED4962DFF} = {99211986-60AB-4993-BBFB-762BCEFDB9F7}
 		{B3127D49-1E83-414A-B2AA-183FC1DCC070} = {99211986-60AB-4993-BBFB-762BCEFDB9F7}
 		{46FBD5D8-7D7C-447A-931E-162E531DF9CB} = {99211986-60AB-4993-BBFB-762BCEFDB9F7}
+		{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A} = {99211986-60AB-4993-BBFB-762BCEFDB9F7}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9B18A8C8-BC84-450B-A1B7-0AFAB6C55E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -47,5 +50,9 @@ Global
 		{46FBD5D8-7D7C-447A-931E-162E531DF9CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46FBD5D8-7D7C-447A-931E-162E531DF9CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46FBD5D8-7D7C-447A-931E-162E531DF9CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE9637CF-F73D-4AAA-8CE0-3E5A84B6587A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
