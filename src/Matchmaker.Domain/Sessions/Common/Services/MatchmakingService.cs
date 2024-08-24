@@ -35,6 +35,11 @@ public sealed class MatchmakingService(
 
   public List<User>? MatchUsers(DateTime time, bool forced = false)
   {
+    if (GetWaitingUsersCount() == 0)
+    {
+      return null;
+    }
+
     List<User> matchedUsers = [];
 
     foreach (User user in state.GetWaitingUsers()
