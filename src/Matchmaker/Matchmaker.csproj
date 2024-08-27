@@ -6,7 +6,6 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Matchmaker</RootNamespace>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,12 +13,6 @@
     <ProjectReference Include="..\Matchmaker.Domain\Matchmaker.Domain.csproj" />
     <ProjectReference Include="..\Matchmaker.Infra.Data\Matchmaker.Infra.Data.csproj" />
     <ProjectReference Include="..\Matchmaker.Infra.Http\Matchmaker.Infra.Http.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\..\.dockerignore">
-      <Link>.dockerignore</Link>
-    </Content>
   </ItemGroup>
 
 </Project>
